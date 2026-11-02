@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 
 export default function LandingPage() {
   const [salary, setSalary] = useState(45000);
@@ -25,7 +24,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
+          <a href="#idea" className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center font-black text-xl shadow-md shadow-emerald-500/20">
               ◎
             </div>
@@ -33,9 +32,10 @@ export default function LandingPage() {
               <span className="text-xl font-black tracking-tight text-slate-900 leading-none block">FairCircle</span>
               <span className="text-[10px] text-emerald-700 font-bold tracking-wider uppercase">ফেয়ার-সার্কেল</span>
             </div>
-          </div>
+          </a>
 
           <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
+            <a href="#idea" className="hover:text-emerald-700 transition">আমাদের দর্শন</a>
             <a href="#how-it-works" className="hover:text-emerald-700 transition">পিরামিড বনাম সার্কেল</a>
             <a href="#pillars" className="hover:text-emerald-700 transition">মূল স্তম্ভসমূহ</a>
             <a href="#calculator" className="hover:text-emerald-700 transition">আর্থিক ক্যালকুলেটর</a>
@@ -43,14 +43,15 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-2">
             <a href="#download" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-md shadow-emerald-600/20">
-              অ্যাপ ডাউনলোড
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              <span>অ্যাপ ডাউনলোড</span>
             </a>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 md:pt-20 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white">
+      <section id="idea" className="relative pt-12 md:pt-20 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-bold px-3.5 py-1.5 rounded-full mb-6 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -69,11 +70,12 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
-            <a href="#download" className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition shadow-lg shadow-slate-900/20">
-              Android App ডাউনলোড (APK)
+            <a href="#download" className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2">
+              <svg className="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993 0 .5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1523-.5676.416.416 0 00-.5676.1523l-2.0223 3.503C15.5902 7.2796 13.8533 6.9118 12 6.9118s-3.5902.3678-5.1366 1.0381L4.8411 4.4469a.416.416 0 00-.5676-.1523.416.416 0 00-.1523.5676l1.9973 3.4592C2.6889 10.2867.3333 13.7915.3333 17.8333h23.3334c0-4.0418-2.3556-7.5466-5.7867-9.5119"/></svg>
+              <span>Android App ডাউনলোড (APK)</span>
             </a>
-            <a href="#pillars" className="w-full sm:w-auto px-6 py-3.5 rounded-xl border-2 border-slate-200 hover:border-slate-300 bg-white text-slate-800 font-bold text-sm transition">
-              প্ল্যাটফর্মের সেবাগুলো দেখুন →
+            <a href="#how-it-works" className="w-full sm:w-auto px-6 py-3.5 rounded-xl border-2 border-slate-200 hover:border-slate-300 bg-white text-slate-800 font-bold text-sm transition">
+              কীভাবে কাজ করে দেখুন →
             </a>
           </div>
 
@@ -95,6 +97,104 @@ export default function LandingPage() {
               <div className="text-xs text-slate-400 font-semibold">সম্পদ পুঞ্জীভূত রোধ</div>
               <div className="text-base font-black text-slate-900">২.৫% স্থানীয় বণ্টন</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works / Pyramid vs Circle Section */}
+      <section id="how-it-works" className="py-16 md:py-24 bg-slate-50 border-y border-slate-200/80">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-200/80 px-3 py-1 rounded-full">
+              সহজ অর্থনীতির চরম সত্য
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight mt-3 mb-3">
+              টাকা কেন মানুষের গলায় ফাঁসের মতো কাজ করে?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              কোনো জটিলতা ছাড়াই দেখুন কীভাবে প্রচলিত ব্যাংক ব্যবস্থা মানুষকে স্থায়ী ঋণের পিরামিডে আটকে ফেলে এবং ফেয়ার-সার্কেল কীভাবে মানুষকে মুক্তি দেয়।
+            </p>
+          </div>
+
+          {/* Side-by-Side Comparison */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Pyramid Trap Side */}
+            <div className="bg-white border-2 border-red-200/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-bold text-red-800 bg-red-100 px-2.5 py-0.5 rounded-md">প্রচলিত শোষণব্যবস্থা</span>
+                  <span className="text-xs font-bold text-red-700">সুদের পিরামিড ট্র্যাপ</span>
+                </div>
+
+                <div className="py-4 flex flex-col items-center justify-center">
+                  <div className="w-32 bg-red-600 text-white text-[11px] font-bold py-2 rounded-t-lg text-center shadow-xs">
+                    সেন্ট্রাল ব্যাংক
+                    <div className="text-[9px] font-normal opacity-90">ছাপে মাত্র ৳১,০০০</div>
+                  </div>
+                  <div className="w-0.5 h-2 bg-red-300"></div>
+                  <div className="w-48 bg-red-500 text-white text-[11px] font-bold py-2 text-center shadow-xs">
+                    বাণিজ্যিক ঋণদাতা ব্যাংক
+                    <div className="text-[9px] font-normal opacity-90">দাবি করে ৳১,১০০ (১০% সুদ)</div>
+                  </div>
+                  <div className="w-0.5 h-2 bg-red-300"></div>
+                  <div className="w-64 bg-red-800 text-white text-[11px] font-bold py-2.5 rounded-b-lg text-center shadow-xs">
+                    মেহনতী মানুষ ও পরিবার
+                    <div className="text-[9px] font-medium text-red-200">দেনা: ৳১,১০০ | বাজারে আছে মাত্র ৳১,০০০!</div>
+                  </div>
+                </div>
+
+                <div className="bg-red-50/50 border border-red-200 rounded-xl p-3.5 text-xs text-slate-700 space-y-1.5 mt-3">
+                  <strong className="text-red-900 block font-bold text-xs">⚠️ গাণিতিক বাস্তবতা:</strong>
+                  <p>১. ব্যাংক মোট তৈরি করেছে <strong>৳১,০০০</strong>।</p>
+                  <p>২. সুদসহ ফেরত চায় <strong>৳১,১০০</strong>।</p>
+                  <p>৩. অতিরিক্ত <strong>৳১০০</strong> আসল বাজারে নেই; <em>তা ছাপাই হয়নি!</em></p>
+                  <p className="text-red-700 font-semibold pt-1 border-t border-red-200 text-[11px]">
+                    ফলে সমাজে কাউকে না কাউকে অবশ্যই দেউলিয়া হতে হবে, জমি বিক্রি করতে হবে বা ঋণ শোধ করতে আবার নতুন সুদের ফাঁদে পড়তে হবে।
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* FairCircle Solution Side */}
+            <div className="bg-white border-2 border-emerald-300 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-md">ন্যায্য সমাধান</span>
+                  <span className="text-xs font-bold text-emerald-800">সুদমুক্ত জীবন্ত বৃত্ত (FairCircle)</span>
+                </div>
+
+                <div className="py-4 flex items-center justify-center">
+                  <div className="w-44 h-44 rounded-full border-2 border-dashed border-emerald-500/70 flex items-center justify-center relative p-2">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex flex-col items-center justify-center text-center p-1 shadow-sm">
+                      <span className="font-black text-xs">আসল সম্পদ</span>
+                      <span className="text-[9px] text-emerald-100 font-bold">০% সুদ</span>
+                    </div>
+
+                    <div className="absolute -top-3 bg-white border border-emerald-600 text-slate-800 font-bold text-[10px] px-2 py-0.5 rounded-full shadow-xs">
+                      🌾 উৎপাদক
+                    </div>
+                    <div className="absolute -bottom-3 right-1 bg-white border border-emerald-600 text-slate-800 font-bold text-[10px] px-2 py-0.5 rounded-full shadow-xs">
+                      🤝 করজে হাসানা
+                    </div>
+                    <div className="absolute -bottom-3 left-1 bg-white border border-emerald-600 text-slate-800 font-bold text-[10px] px-2 py-0.5 rounded-full shadow-xs">
+                      👤 ভোক্তা
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-50/50 border border-emerald-200 rounded-xl p-3.5 text-xs text-slate-700 space-y-1.5 mt-3">
+                  <strong className="text-emerald-900 block font-bold text-xs">✅ ফেয়ার-সার্কেল কীভাবে মুক্তি আনে:</strong>
+                  <p>১. <strong>৳১.০০ মান = ৳১.০০ আসল পণ্য</strong> (চাল, তেল, পোশাক, চিকিৎসা সেবা)।</p>
+                  <p>২. <strong>শূন্য সুদ:</strong> বিপদে ৳১০,০০০ ধার নিলে হুবহু ৳১০,০০০-ই পরিশোধ করবেন।</p>
+                  <p>৩. <strong>সম্পদ বণ্টন:</strong> অলস অর্থ ১ বছর পড়ে থাকলে ২.৫% স্থানীয় আপৎকালীন ফান্ডে বণ্টন হয়।</p>
+                  <p className="text-emerald-800 font-semibold pt-1 border-t border-emerald-200 text-[11px]">
+                    কোনো জমি বা সহায় সম্বল নিলাম হবে না। সমাজে টাকা অবিরাম ঘুরবে এবং মানুষ মর্যাদার সাথে বাঁচবে।
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -140,7 +240,7 @@ export default function LandingPage() {
               </div>
               <h3 className="font-bold text-slate-900 text-base mb-1.5">০% সুদমুক্ত ধার ও শেয়ার</h3>
               <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                হাসপাতালের জরুরি বিলে ০% সুদে ঋণ (করজে হাসানা) এবং ভারী যন্ত্রপাতি ফ্রি শেয়ারিং।
+                জরুরি চিকিৎসার বিলে ০% সুদে ঋণ (করজে হাসানা) এবং কৃষি যন্ত্রপাতি ফ্রি শেয়ারিং।
               </p>
               <span className="text-[11px] font-bold text-blue-700 bg-blue-100/60 px-2 py-0.5 rounded">০.০০% সুদ</span>
             </div>
@@ -200,10 +300,62 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Download Section */}
+      <section id="download" className="py-16 md:py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="bg-gradient-to-tr from-emerald-600 via-teal-600 to-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+            <div className="max-w-2xl mx-auto relative z-10">
+              <span className="text-xs uppercase tracking-wider font-bold bg-white/20 px-3 py-1 rounded-full text-emerald-100">
+                আজই যুক্ত হোন
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black mt-4 mb-3 tracking-tight">
+                আসুন একসাথে সুদমুক্ত অর্থনীতি গড়ি
+              </h2>
+              <p className="text-xs sm:text-sm text-emerald-100 leading-relaxed mb-8">
+                FairCircle কোনো বাণিজ্যিক মুনাফাখোর প্রতিষ্ঠান নয়; এটি গণমানুষের ন্যায্যতার একটি স্বাধীন উন্মুক্ত প্ল্যাটফর্ম। এখনই অ্যান্ড্রয়েড অ্যাপ অথবা ওয়েব ভার্সন ব্যবহার করুন।
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                  href="https://github.com/Sany655/fair-circle/actions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-slate-900 font-black text-sm hover:bg-slate-100 transition shadow-md flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993 0 .5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1523-.5676.416.416 0 00-.5676.1523l-2.0223 3.503C15.5902 7.2796 13.8533 6.9118 12 6.9118s-3.5902.3678-5.1366 1.0381L4.8411 4.4469a.416.416 0 00-.5676-.1523.416.416 0 00-.1523.5676l1.9973 3.4592C2.6889 10.2867.3333 13.7915.3333 17.8333h23.3334c0-4.0418-2.3556-7.5466-5.7867-9.5119"/></svg>
+                  <span>Android Release APK ডাউনলোড</span>
+                </a>
+                <a
+                  href="#calculator"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-950 text-white font-bold text-sm transition border border-white/20"
+                >
+                  ক্যালকুলেটর পরীক্ষা করুন
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-slate-50 border-t border-slate-200/80 py-8 text-xs text-slate-500 text-center">
-        <div className="max-w-6xl mx-auto px-4">
-          <p>© 2026 FairCircle (ফেয়ার-সার্কেল) — সুদমুক্ত গণমানুষের অর্থনীতি • ১০০% উন্মুক্ত ও স্বাধীন</p>
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+              ◎
+            </div>
+            <span className="font-bold text-slate-800">FairCircle (ফেয়ার-সার্কেল)</span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a href="#idea" className="hover:text-slate-800 transition">আমাদের দর্শন</a>
+            <a href="#how-it-works" className="hover:text-slate-800 transition">পিরামিড বনাম সার্কেল</a>
+            <a href="#pillars" className="hover:text-slate-800 transition">মূল স্তম্ভ</a>
+            <a href="#calculator" className="hover:text-slate-800 transition">হিসাব</a>
+            <a href="#download" className="hover:text-slate-800 transition">ডাউনলোড</a>
+          </div>
+
+          <p>© 2026 FairCircle — সুদমুক্ত গণমানুষের অর্থনীতি</p>
         </div>
       </footer>
     </div>
