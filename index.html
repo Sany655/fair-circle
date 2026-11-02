@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FairCircle - Autonomous Ethical Economy</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Tab Active State */
+    .tab-active {
+      color: #059669 !important;
+      background-color: #ecfdf5 !important;
+    }
+    .tab-active svg {
+      color: #059669 !important;
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+    }
+    /* Mobile frame styling */
+    .mobile-frame-container {
+      max-width: 390px;
+      margin: 16px auto;
+      border: 8px solid #0f172a;
+      border-radius: 40px;
+      box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.25);
+      background-color: #ffffff;
+      overflow-x: hidden;
+      min-height: 800px;
+      position: relative;
+    }
+    .mobile-frame-container .mobile-notch {
+      width: 120px;
+      height: 20px;
+      background-color: #0f172a;
+      margin: 0 auto;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      position: relative;
+      z-index: 50;
+    }
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 0.95; }
+    }
+    .animate-gentle {
+      animation: pulseSoft 3s infinite ease-in-out;
+    }
+    /* Custom clean scrollbars */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50/70 text-slate-800 antialiased min-h-screen selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+
+  <!-- Top System Viewport Switcher -->
+  <div class="bg-slate-900 text-white text-[11px] py-1.5 px-3 sticky top-0 z-50 border-b border-slate-800">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 truncate">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+        <span class="font-bold text-slate-200">FairCircle</span>
+        <span class="text-slate-500">•</span>
+        <span class="text-slate-300 truncate text-[10px]">১০০% আসল সম্পদ • ০% সুদ • BDT (৳)</span>
+      </div>
+
+      <!-- Preview Mode Switcher -->
+      <div class="flex items-center gap-1 bg-slate-800 p-0.5 rounded-lg border border-slate-700 shrink-0">
+        <button onclick="setViewMode('web')" id="btn-view-web" class="px-2 py-0.5 rounded font-semibold transition bg-emerald-600 text-white shadow-xs text-[10px]">
+          Web
+        </button>
+        <button onclick="setViewMode('mobile')" id="btn-view-mobile" class="px-2 py-0.5 rounded font-medium transition text-slate-300 hover:text-white text-[10px]">
+          App
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Wrapper -->
+  <div id="app-root" class="w-full transition-all duration-300 ease-in-out overflow-x-hidden">
+    
+    <!-- Phone Notch (Visible only in mobile mode) -->
+    <div id="mobile-notch-bar" class="hidden mobile-notch"></div>
+
+    <!-- Application Top Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-7 z-40 shadow-xs">
+      <div class="max-w-5xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+        
+        <!-- Brand Identity (Compact) -->
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center font-black text-base shadow-sm shrink-0">
+            ◎
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1">
+              <h1 class="text-base font-bold tracking-tight text-slate-900 leading-none truncate">FairCircle</h1>
+              <span class="text-[9px] bg-emerald-50 text-emerald-700 font-semibold px-1.5 py-0.2 rounded-full border border-emerald-200/60 shrink-0">
+                সুদমুক্ত
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-medium leading-none mt-0.5 truncate">গণমানুষের স্বাধীন অর্থনীতি</p>
+          </div>
+        </div>
+
+        <!-- Compact Live Indicators -->
+        <div class="flex items-center gap-1.5 shrink-0 text-[10px]">
+          <div class="bg-slate-50 border border-slate-200 px-2 py-1 rounded-lg text-slate-700 font-semibold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span>৳ BDT</span>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200/80 px-2 py-1 rounded-lg text-emerald-800 font-bold">
+            <span>০% সুদ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compact 5-Column Navigation Bar (Zero Horizontal Overflow) -->
+      <nav class="max-w-md mx-auto grid grid-cols-5 border-t border-slate-100 py-1 px-1 bg-white">
+        
+        <!-- Tab 1: Marketplace -->
+        <button onclick="switchTab('marketplace')" id="tab-marketplace" class="tab-btn flex flex-col items-center justify-center py-1 rounded-lg text-slate-500 hover:text-emerald-700 transition tab-active">
+          <svg class="w-4 h-4 mb-0.5 text-slate-500 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span class="text-[10px] font-semibold tracking-tight truncate">বাজার</span>
+        </button>
+
+        <!-- Tab 2: Invest & Pre-Order -->
+        <button onclick="switchTab('invest')" id="tab-invest" class="tab-btn flex flex-col items-center justify-center py-1 rounded-lg text-slate-500 hover:text-emerald-700 transition">
+          <svg class="w-4 h-4 mb-0.5 text-slate-500 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span class="text-[10px] font-semibold tracking-tight truncate">বিনিয়োগ</span>
+        </button>
+
+        <!-- Tab 3: Mutual Aid & Share -->
+        <button onclick="switchTab('mutual-aid')" id="tab-mutual-aid" class="tab-btn flex flex-col items-center justify-center py-1 rounded-lg text-slate-500 hover:text-emerald-700 transition">
+          <svg class="w-4 h-4 mb-0.5 text-slate-500 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="text-[10px] font-semibold tracking-tight truncate">সহায়তা</span>
+        </button>
+
+        <!-- Tab 4: My Financial Health -->
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn flex flex-col items-center justify-center py-1 rounded-lg text-slate-500 hover:text-emerald-700 transition">
+          <svg class="w-4 h-4 mb-0.5 text-slate-500 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span class="text-[10px] font-semibold tracking-tight truncate">হিসাব</span>
+        </button>
+
+        <!-- Tab 5: How It Works -->
+        <button onclick="switchTab('about')" id="tab-about" class="tab-btn flex flex-col items-center justify-center py-1 rounded-lg text-slate-500 hover:text-emerald-700 transition">
+          <svg class="w-4 h-4 mb-0.5 text-slate-500 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-[10px] font-semibold tracking-tight truncate">পদ্ধতি</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content Container (Proper padding and responsive text) -->
+    <main class="max-w-5xl mx-auto p-3 sm:p-5 md:p-6 overflow-x-hidden">
+
+      <!-- ======================================================== -->
+      <!-- TAB 1: MARKETPLACE -->
+      <!-- ======================================================== -->
+      <section id="content-marketplace" class="tab-content space-y-4">
+        <!-- Marketplace Banner -->
+        <div class="bg-white border border-slate-200/80 rounded-xl p-4 shadow-xs">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <div class="flex items-center gap-1.5 mb-1">
+                <span class="text-[9px] font-bold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded-full">সরাসরি সমবায়</span>
+                <span class="text-[10px] text-slate-400">• মধ্যস্বত্বভোগী শূন্য</span>
+              </div>
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">প্রকৃত উৎপাদকের উন্মুক্ত হাট</h2>
+              <p class="text-[11px] text-slate-500 mt-0.5">প্রতিটি পণ্যের কাঁচামাল ও মজুরির হিসাব উন্মুক্ত। কোনো লুকানো চার্জ নেই।</p>
+            </div>
+            
+            <div class="bg-emerald-50/80 border border-emerald-200 text-emerald-900 px-3 py-1.5 rounded-lg text-[10px] flex items-center gap-1.5 shadow-xs shrink-0">
+              <svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              <span><strong>৪৮ ঘণ্টা এসক্রো:</strong> যাচাইয়ের পর টাকা ছাড়।</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Product 1 -->
+          <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="bg-slate-50/80 p-3 border-b border-slate-100 flex justify-between items-center text-[10px]">
+                <span class="font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded">পাবনা সমবায় #১২</span>
+                <span class="text-slate-400">খাঁটি সরিষা</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-slate-900 text-sm leading-snug">কাঠের ঘানির খাঁটি সরিষার তেল (৫ লিটার)</h3>
+                <p class="text-[11px] text-slate-500 mt-1 mb-3 leading-relaxed">দেশি মাঘী সরিষা থেকে কাঠের ঘানিতে ভাঙানো। কোনো কেমিক্যাল বা পাম অয়েল ব্লেন্ডিং নেই।</p>
+
+                <!-- Detailed Price Breakdown Card -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 text-[10px] space-y-1 mb-3">
+                  <div class="font-bold text-slate-700 pb-1 border-b border-slate-200 flex justify-between">
+                    <span>খরচের উন্মুক্ত খতিয়ান:</span>
+                    <span class="text-emerald-700 font-semibold">১০০% স্বচ্ছ</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>সরিষা ও ঘানি মজুরি:</span>
+                    <span class="font-mono">৳১,৮৫০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>ফুড ক্যান ও পরিবহন:</span>
+                    <span class="font-mono">৳১৮০</span>
+                  </div>
+                  <div class="flex justify-between text-emerald-700 font-bold">
+                    <span>কৃষকের ন্যায্য লাভ:</span>
+                    <span class="font-mono">৳৩৭০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-400 border-t border-slate-200 pt-1">
+                    <span>সিন্ডিকেট কমিশন:</span>
+                    <span class="font-mono line-through text-red-500">৳৬৫০ (এখানে ৳০)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0">
+              <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div>
+                  <span class="text-lg font-black text-slate-900">৳২,৪০০</span>
+                  <span class="block text-[9px] text-slate-400">নির্ধারিত মূল্য</span>
+                </div>
+                <button onclick="openEscrowModal('কাঠের ঘানির খাঁটি সরিষার তেল (৫ লিটার)', '৳২,৪০০', 'পাবনা কৃষক সমবায় #১২')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition shadow-xs flex items-center gap-1">
+                  <span>অর্ডার</span>
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="bg-slate-50/80 p-3 border-b border-slate-100 flex justify-between items-center text-[10px]">
+                <span class="font-bold text-blue-800 bg-blue-100/80 px-2 py-0.5 rounded">টাঙ্গাইল তাঁত #০৪</span>
+                <span class="text-slate-400">হাতে বোনা খাদি</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-slate-900 text-sm leading-snug">হাতে কাটা দেশি খাদি সুতির পাঞ্জাবী</h3>
+                <p class="text-[11px] text-slate-500 mt-1 mb-3 leading-relaxed">১০০% প্রাকৃতিক সুতা ও পরিবেশবান্ধব রঙ। আরামদায়ক ও টেকসই সেলাই।</p>
+
+                <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 text-[10px] space-y-1 mb-3">
+                  <div class="font-bold text-slate-700 pb-1 border-b border-slate-200 flex justify-between">
+                    <span>খরচের উন্মুক্ত খতিয়ান:</span>
+                    <span class="text-blue-700 font-semibold">১০০% স্বচ্ছ</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>তুলা ও চরকা সুতা:</span>
+                    <span class="font-mono">৳৬৫০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>তাঁতী ও দর্জি মজুরি:</span>
+                    <span class="font-mono">৳৭০০</span>
+                  </div>
+                  <div class="flex justify-between text-emerald-700 font-bold">
+                    <span>তাঁতপল্লী তহবিল:</span>
+                    <span class="font-mono">৳১৫০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-400 border-t border-slate-200 pt-1">
+                    <span>ব্র্যান্ড প্রফিট:</span>
+                    <span class="font-mono line-through text-red-500">৳২,০০০ (এখানে ৳০)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0">
+              <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div>
+                  <span class="text-lg font-black text-slate-900">৳১,৫০০</span>
+                  <span class="block text-[9px] text-slate-400">নির্ধারিত মূল্য</span>
+                </div>
+                <button onclick="openEscrowModal('হাতে কাটা দেশি খাদি সুতির পাঞ্জাবী', '৳১,৫০০', 'টাঙ্গাইল তাঁত সমবায় #০৪')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition shadow-xs flex items-center gap-1">
+                  <span>অর্ডার</span>
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="bg-slate-50/80 p-3 border-b border-slate-100 flex justify-between items-center text-[10px]">
+                <span class="font-bold text-purple-800 bg-purple-100/80 px-2 py-0.5 rounded">স্বাস্থ্য সমবায়</span>
+                <span class="text-slate-400">ডাক্তার-মালিকানাধীন</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-slate-900 text-sm leading-snug">ডাক্তার পরামর্শ ও ডায়াগনস্টিক প্যাকেজ</h3>
+                <p class="text-[11px] text-slate-500 mt-1 mb-3 leading-relaxed">এমবিবিএস চিকিৎসকের ৩০ মিনিট পরামর্শ + রক্তের সুগার, সিবিসি ও প্রেসার পরীক্ষা। কমিশন মুক্ত।</p>
+
+                <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 text-[10px] space-y-1 mb-3">
+                  <div class="font-bold text-slate-700 pb-1 border-b border-slate-200 flex justify-between">
+                    <span>খরচের উন্মুক্ত খতিয়ান:</span>
+                    <span class="text-purple-700 font-semibold">১০০% স্বচ্ছ</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>ল্যাব কেমিক্যাল ও রিএজেন্ট:</span>
+                    <span class="font-mono">৳৩৫০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-600">
+                    <span>চিকিৎসক সম্মাননা:</span>
+                    <span class="font-mono">৳৪৫০</span>
+                  </div>
+                  <div class="flex justify-between text-emerald-700 font-bold">
+                    <span>ক্লিনিক যন্ত্রপাতি ফান্ড:</span>
+                    <span class="font-mono">৳১০০</span>
+                  </div>
+                  <div class="flex justify-between text-slate-400 border-t border-slate-200 pt-1">
+                    <span>হাসপাতাল দালাল কাট:</span>
+                    <span class="font-mono line-through text-red-500">৳১,৬০০ (এখানে ৳০)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0">
+              <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div>
+                  <span class="text-lg font-black text-slate-900">৳৯০০</span>
+                  <span class="block text-[9px] text-slate-400">নির্ধারিত ফি</span>
+                </div>
+                <button onclick="openEscrowModal('ডাক্তার পরামর্শ ও ডায়াগনস্টিক প্যাকেজ', '৳৯০০', 'স্বাস্থ্য সমবায় ক্লিনিক')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-[11px] transition shadow-xs flex items-center gap-1">
+                  <span>বুকিং</span>
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 2: INVEST & PRE-ORDER (SALAM MODEL) -->
+      <!-- ======================================================== -->
+      <section id="content-invest" class="tab-content hidden space-y-4">
+        <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-xl p-4 shadow-xs">
+          <span class="text-[9px] uppercase tracking-wider font-bold bg-purple-500/30 text-purple-200 px-2 py-0.5 rounded-full border border-purple-400/30">
+            ফরওয়ার্ড সেল (Salam Model)
+          </span>
+          <h2 class="text-base sm:text-lg font-bold mt-1.5 mb-1">কৃষক ও কারিগরের ফসলে সরাসরি অংশীদার হন</h2>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            কৃষক বীজ ও সারের জন্য সুদে ঋণ নেন না। আমরা সাধারণ মানুষ উৎপাদন শুরুর আগেই অগ্রিম প্রি-অর্ডার করি। কৃষক পান সুদমুক্ত মূলধন; আমরা পাই বাজারদরের চেয়ে ৩০–৪০% কমে খাঁটি ফসল।
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Campaign 1 -->
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">বোরো ধান চাষ</span>
+                <span class="text-[10px] text-slate-400 font-medium">ডেলিভারি: মে ২০২৭</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-sm leading-snug">বগুড়ার দেশি সুগন্ধি ধানের জৈব আবাদ</h3>
+              <p class="text-[11px] text-slate-600 mt-1 mb-3 leading-relaxed">
+                কৃষক রফিকের জমিতে সুগন্ধি ধানের আবাদ। ৫০টি পরিবারের প্রি-অর্ডার আহবান করা হয়েছে। প্রতি শেয়ারে পাবেন ২৫ কেজি খাঁটি চাল।
+              </p>
+
+              <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 space-y-1.5 text-[10px] mb-3">
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">তহবিল লক্ষ্যমাত্রা:</span>
+                  <span class="font-bold font-mono text-slate-900">৳১,০০,০০০ (৫০ শেয়ার)</span>
+                </div>
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">প্রি-অর্ডার সম্পন্ন:</span>
+                  <span class="font-bold font-mono text-emerald-700">৩৮টি পরিবার (৭৬%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full w-[76%] rounded-full"></div>
+                </div>
+                <div class="flex justify-between text-slate-500 pt-0.5 text-[9px]">
+                  <span>অগ্রিম খরচ: <strong class="text-slate-900">৳২,০০০</strong></span>
+                  <span class="text-emerald-700 font-semibold">বাজারমূল্য: ৳৩,২০০</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openPreOrderModal('বগুড়ার দেশি সুগন্ধি ধান', '৳২,০০০', '২৫ কেজি খাঁটি চাল')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs transition shadow-xs flex items-center justify-center gap-1">
+              <span>১টি শেয়ার প্রি-অর্ডার (৳২,০০০)</span>
+            </button>
+          </div>
+
+          <!-- Campaign 2 -->
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">কাঠমিস্ত্রি সমবায়</span>
+                <span class="text-[10px] text-slate-400 font-medium">ডেলিভারি: ৪৫ দিন</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-sm leading-snug">সেগুন কাঠের পড়ার টেবিল ও চেয়ার</h3>
+              <p class="text-[11px] text-slate-600 mt-1 mb-3 leading-relaxed">
+                মিরপুর কাষ্ঠশিল্প সমবায় কারখানা পাইকারি কাঠ কেনার জন্য অগ্রিম প্রি-অর্ডার আহবান করেছে। কারখানা খরচে ৫০ বছর টেকসই স্টাডি ডেস্ক।
+              </p>
+
+              <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 space-y-1.5 text-[10px] mb-3">
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">তহবিল লক্ষ্যমাত্রা:</span>
+                  <span class="font-bold font-mono text-slate-900">৳১,৪০,০০০ (২০ ডেস্ক)</span>
+                </div>
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">প্রি-অর্ডার সম্পন্ন:</span>
+                  <span class="font-bold font-mono text-purple-700">১৫ পরিবার (৭৫%)</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-purple-600 h-full w-[75%] rounded-full"></div>
+                </div>
+                <div class="flex justify-between text-slate-500 pt-0.5 text-[9px]">
+                  <span>অগ্রিম খরচ: <strong class="text-slate-900">৳৭,০০০</strong></span>
+                  <span class="text-purple-700 font-semibold">শোরুম মূল্য: ৳১৪,৫০০</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openPreOrderModal('সেগুন কাঠের টেকসই পড়ার টেবিল', '৳৭,০০০', '১টি স্টাডি ডেস্ক')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg text-xs transition shadow-xs flex items-center justify-center gap-1">
+              <span>১টি টেবিল প্রি-অর্ডার (৳৭,০০০)</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 3: MUTUAL AID & SHARE (QARD HASAN) -->
+      <!-- ======================================================== -->
+      <section id="content-mutual-aid" class="tab-content hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
+          <span class="text-[9px] uppercase tracking-wider font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+            পারস্পরিক সহযোগিতা
+          </span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 mt-1 mb-0.5">সুদমুক্ত করজে হাসানা ও যন্ত্রপাতি শেয়ারিং</h2>
+          <p class="text-[11px] text-slate-500 leading-relaxed">
+            বিপদে পড়লে সুদের কিস্তির ফাঁদে পড়ার দিন শেষ। মহল্লার মানুষ অতিরিক্ত অলস টাকা একত্রিত করে শূন্য শতাংশ সুদে ধার দেয় এবং ভারী যন্ত্রপাতি ফ্রিতে শেয়ার করে।
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Qard Hasan Pool -->
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2.5">
+                <div class="flex items-center gap-1.5">
+                  <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                    🛡️
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900 text-xs">০% সুদমুক্ত আপৎকালীন ফান্ড</h3>
+                    <p class="text-[9px] text-slate-400">করজে হাসানা</p>
+                  </div>
+                </div>
+                <span class="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                  ০.০০% সুদ
+                </span>
+              </div>
+
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-3">
+                পরিবারের কেউ অসুস্থ হলে সুদবিহীন ঋণ নিন। কোনো বিলম্ব ফি বা চক্রবৃদ্ধি নেই। শুধু মূল টাকা পরিশোধ করবেন।
+              </p>
+
+              <!-- Pool Counters -->
+              <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 space-y-1.5 text-[10px] mb-3">
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">মহল্লার মোট সক্রিয় ফান্ড:</span>
+                  <span class="font-bold font-mono text-slate-900">৳২,৫০,০০০</span>
+                </div>
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">বিপদে ধার দেওয়া হয়েছে:</span>
+                  <span class="font-bold font-mono text-emerald-700">৳১,৪০,০০০ (১৬ পরিবার)</span>
+                </div>
+                <div class="flex justify-between font-medium">
+                  <span class="text-slate-500">পরিশোধের সততা হার:</span>
+                  <span class="font-bold font-mono text-blue-700">৯৯.৮%</span>
+                </div>
+                <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full w-[56%] rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <button onclick="openDepositModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2 rounded-lg text-xs transition">
+                + আমানত জমা
+              </button>
+              <button onclick="openLoanModal()" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs transition shadow-xs">
+                ঋণের আবেদন
+              </button>
+            </div>
+          </div>
+
+          <!-- Machinery & Tool Library -->
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2.5">
+                <div class="flex items-center gap-1.5">
+                  <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs shrink-0">
+                    🔧
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900 text-xs">যন্ত্রপাতি ব্যাংক</h3>
+                    <p class="text-[9px] text-slate-400">৩ কিমি এলাকা</p>
+                  </div>
+                </div>
+                <span class="text-[9px] bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full">
+                  ফ্রি শেয়ারিং
+                </span>
+              </div>
+
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-3">
+                বছরে ২ দিন ব্যবহারের জন্য ১৫ হাজার টাকার মেশিন কেনার দরকার নেই। প্রতিবেশীর কাছ থেকে ফ্রি ধার নিন।
+              </p>
+
+              <!-- Available Tools List -->
+              <div class="space-y-1.5 mb-3 text-[10px]">
+                <div class="p-2 bg-slate-50 border border-slate-200/70 rounded-lg flex justify-between items-center">
+                  <div>
+                    <strong class="text-slate-900 block text-[11px]">সেচ পাম্প (Irrigation Pump)</strong>
+                    <span class="text-slate-400 text-[9px]">মালিক: কবির মিয়া • ১৮ বার ধার</span>
+                  </div>
+                  <span class="text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">ফ্রি</span>
+                </div>
+
+                <div class="p-2 bg-slate-50 border border-slate-200/70 rounded-lg flex justify-between items-center">
+                  <div>
+                    <strong class="text-slate-900 block text-[11px]">রোটারি হ্যামার ড্রিল</strong>
+                    <span class="text-slate-400 text-[9px]">মালিক: শামীম • ৩১ বার ধার</span>
+                  </div>
+                  <span class="text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">ফ্রি</span>
+                </div>
+
+                <div class="p-2 bg-slate-50 border border-slate-200/70 rounded-lg flex justify-between items-center">
+                  <div>
+                    <strong class="text-slate-900 block text-[11px]">মিনি পাওয়ার টিলার</strong>
+                    <span class="text-slate-400 text-[9px]">মালিক: বেলাল • ১২ বার ব্যবহার</span>
+                  </div>
+                  <span class="text-[9px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">৳১০০ তেল</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="alert('টুল তালিকাভুক্ত করার ফর্মটি শীঘ্রই লাইভ হবে!')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded-lg text-xs transition shadow-xs">
+              + টুল যুক্ত করুন
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 4: MY FINANCIAL HEALTH -->
+      <!-- ======================================================== -->
+      <section id="content-dashboard" class="tab-content hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
+          <span class="text-[9px] uppercase tracking-wider font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+            ব্যক্তিগত আত্মনিয়ন্ত্রণ
+          </span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 mt-1 mb-0.5">আমার আর্থিক স্বাস্থ্য ও প্রভাব খতিয়ান</h2>
+          <p class="text-[11px] text-slate-500 leading-relaxed">
+            আপনার চাকরি বা ব্যবসার মাসিক আয় এখানে দিন। প্ল্যাটফর্ম একটি সুদমুক্ত সুরক্ষা বাজেট এবং ২.৫% যাকাত আমানতের হিসাব তৈরি করে দেবে।
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          <!-- Left: Sliders (7 Cols) -->
+          <div class="lg:col-span-7 space-y-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+            <h3 class="text-xs font-bold text-slate-900 border-b border-slate-100 pb-2">
+              মাসিক আয় ও ব্যয়ের তথ্য
+            </h3>
+
+            <!-- Slider 1 -->
+            <div class="space-y-1">
+              <div class="flex justify-between items-center text-[11px]">
+                <label class="font-bold text-slate-800">১. মাসিক মোট আয় (Net Income):</label>
+                <span id="u-salary-val" class="font-mono text-blue-700 font-bold text-xs bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">৳৪৫,০০০</span>
+              </div>
+              <input type="range" id="u-salary" min="15000" max="250000" step="2500" value="45000" oninput="runUnifiedEngine()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+            </div>
+
+            <!-- Slider 2 -->
+            <div class="space-y-1 pt-1.5 border-t border-slate-100">
+              <div class="flex justify-between items-center text-[11px]">
+                <label class="font-bold text-slate-800">২. সুরক্ষিত করার শতাংশ:</label>
+                <span id="u-shield-pct-val" class="font-mono text-emerald-700 font-bold text-xs bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">৪০%</span>
+              </div>
+              <input type="range" id="u-shield-pct" min="10" max="90" step="5" value="40" oninput="runUnifiedEngine()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+            </div>
+
+            <!-- Slider 3 -->
+            <div class="space-y-1 pt-1.5 border-t border-slate-100">
+              <div class="flex justify-between items-center text-[11px]">
+                <label class="font-bold text-red-800">৩. সুদের ঋণ (ক্রেডিট কার্ড/লোন):</label>
+                <span id="u-debt-val" class="font-mono text-red-700 font-bold text-xs bg-red-50 px-1.5 py-0.2 rounded border border-red-200">৳২৫,০০০</span>
+              </div>
+              <input type="range" id="u-debt" min="0" max="200000" step="2500" value="25000" oninput="runUnifiedEngine()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600">
+            </div>
+
+            <!-- Slider 4 -->
+            <div class="space-y-1 pt-1.5 border-t border-slate-100">
+              <div class="flex justify-between items-center text-[11px]">
+                <label class="font-bold text-slate-800">৪. অলস সঞ্চয় (Idle Cash):</label>
+                <span id="u-idle-val" class="font-mono text-purple-700 font-bold text-xs bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200">৳৮,৫০,০০০</span>
+              </div>
+              <input type="range" id="u-idle" min="0" max="3000000" step="25000" value="850000" oninput="runUnifiedEngine()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-purple-600">
+              <p class="text-[9px] text-slate-400">নিসাব মান ($\approx$ ৳৭,৮০,০০০) এর অতিরিক্ত অলস টাকা।</p>
+            </div>
+
+            <!-- Slider 5 -->
+            <div class="space-y-1 pt-1.5 border-t border-slate-100">
+              <div class="flex justify-between items-center text-[11px]">
+                <label class="font-bold text-emerald-800">৫. এই বছর দান/ধার দেওয়া হয়েছে:</label>
+                <span id="u-aid-val" class="font-mono text-emerald-700 font-bold text-xs bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">৳১০,০০০</span>
+              </div>
+              <input type="range" id="u-aid" min="0" max="100000" step="1000" value="10000" oninput="runUnifiedEngine()" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+            </div>
+          </div>
+
+          <!-- Right: Visual Score & Diagnostics (5 Cols) -->
+          <div class="lg:col-span-5 space-y-3">
+            
+            <!-- Conscience Score Badge -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs text-center flex flex-col items-center">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400">সামাজিক অর্থনৈতিক স্কোর</span>
+              
+              <div class="my-2">
+                <div id="u-score-badge" class="w-16 h-16 rounded-full border-4 border-amber-400 bg-amber-50 flex flex-col items-center justify-center shadow-xs transition-all duration-300">
+                  <span id="u-score-num" class="text-xl font-black text-amber-700 font-mono leading-none">৬৫</span>
+                  <span class="text-[8px] text-slate-400 font-bold">/ ১০০</span>
+                </div>
+              </div>
+
+              <h4 id="u-score-title" class="text-xs font-bold text-slate-900">পরিবর্তনশীল সমর্থক</h4>
+              <p id="u-score-desc" class="text-[10px] text-slate-500 mt-0.5 max-w-xs leading-tight">
+                উৎপাদকদের সাহায্য করছেন, তবে ঋণ এখনও টাকা শুষে নিচ্ছে।
+              </p>
+            </div>
+
+            <!-- Monthly Allocation Breakdown -->
+            <div class="bg-white border border-slate-200 rounded-xl p-3.5 space-y-1.5 text-[10px] shadow-xs">
+              <div class="font-bold text-slate-900 border-b border-slate-100 pb-1.5 flex justify-between items-center">
+                <span>মাসিক সুরক্ষা পরিকল্পনা:</span>
+                <span id="u-shielded-amt" class="text-emerald-700 font-mono font-bold bg-emerald-50 px-1.5 py-0.2 rounded">৳১৮,০০০</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600">১. সুদের ঋণ ধ্বংস:</span>
+                <span id="u-plan-debt" class="font-mono font-bold text-red-600">৳৫,৪০০/মাস</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600">২. খাঁটি খাদ্য বাজার:</span>
+                <span id="u-plan-food" class="font-mono font-bold text-emerald-700">৳৭,২০০/মাস</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600">৩. ফসলে অগ্রিম বিনিয়োগ:</span>
+                <span id="u-plan-invest" class="font-mono font-bold text-purple-700">৳৩,৬০০/মাস</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-slate-600">৪. সুদমুক্ত ফান্ড জমা:</span>
+                <span id="u-plan-aid" class="font-mono font-bold text-amber-700">৳১,৮০০/মাস</span>
+              </div>
+
+              <div class="flex justify-between items-center border-t border-slate-100 pt-1 text-slate-500 text-[9px]">
+                <span>বাড়িভাড়া ও বিল (অবশিষ্ট):</span>
+                <span id="u-plan-fiat" class="font-mono font-bold text-slate-800">৳২৭,০০০</span>
+              </div>
+            </div>
+
+            <!-- Zakat / Anti-Hoarding -->
+            <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-3 text-[10px] space-y-1 shadow-xs">
+              <div class="font-bold text-emerald-950 text-[10px]">
+                সম্পদ বণ্টন (২.৫% যাকাত):
+              </div>
+              <div class="flex justify-between text-slate-700 pt-0.5">
+                <span>২.৫% আমানত (> ৳৭,৮০,০০০):</span>
+                <span id="u-duty-stat" class="font-mono font-bold text-blue-800">৳২১,২৫০</span>
+              </div>
+              <div class="flex justify-between text-slate-700">
+                <span>ইতিমধ্যে দেওয়া হয়েছে:</span>
+                <span id="u-given-stat" class="font-mono font-bold text-emerald-700">৳১০,০০০</span>
+              </div>
+              <div class="flex justify-between text-slate-900 font-bold border-t border-emerald-200 pt-1">
+                <span>বণ্টনযোগ্য বাকি:</span>
+                <span id="u-balance-stat" class="font-mono text-amber-800">৳১১,২৫০</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 5: HOW IT WORKS (PHILOSOPHY) -->
+      <!-- ======================================================== -->
+      <section id="content-about" class="tab-content hidden space-y-4">
+        <div class="text-center max-w-xl mx-auto pt-1">
+          <span class="text-[9px] uppercase tracking-wider font-bold bg-slate-200/80 text-slate-800 px-2 py-0.5 rounded-full">
+            সহজ অর্থনীতির গণিত
+          </span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight mt-1 mb-1">
+            টাকা কেন মানুষের গলায় ফাঁসের মতো কাজ করে?
+          </h2>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            কোনো জটিল অ্যাকাডেমিক ভাষা ছাড়াই দেখুন কীভাবে প্রচলিত সুদী ব্যাংক ব্যবস্থা মানুষকে গোলাম বানায় এবং ফেয়ার-সার্কেল কীভাবে মুক্তি দেয়।
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+          
+          <!-- Trap Side -->
+          <div class="bg-red-50/40 border border-red-200 rounded-2xl p-4 flex flex-col justify-between shadow-xs">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-red-800 bg-red-100 px-2 py-0.5 rounded">প্রচলিত শোষণব্যবস্থা</span>
+                <span class="text-xs font-bold text-red-700">সুদের পিরামিড ট্র্যাপ</span>
+              </div>
+
+              <!-- Compact Visual Pyramid -->
+              <div class="py-3 flex flex-col items-center justify-center">
+                <div class="w-28 bg-red-600 text-white text-[10px] font-bold py-1.5 rounded-t-lg text-center shadow-xs">
+                  সেন্ট্রাল ব্যাংক
+                  <div class="text-[8px] font-normal opacity-90">ছাপে মাত্র ৳১,০০০</div>
+                </div>
+                <div class="w-0.5 h-2 bg-red-300"></div>
+                <div class="w-44 bg-red-500 text-white text-[10px] font-bold py-1.5 text-center shadow-xs">
+                  বাণিজ্যিক ব্যাংক
+                  <div class="text-[8px] font-normal opacity-90">দাবি করে ৳১,১০০ (১০% সুদ)</div>
+                </div>
+                <div class="w-0.5 h-2 bg-red-300"></div>
+                <div class="w-60 bg-red-800 text-white text-[10px] font-bold py-2 rounded-b-lg text-center shadow-xs">
+                  সাধারণ পরিবার ও মেহনতী মানুষ
+                  <div class="text-[8px] font-medium text-red-200">দেনা: ৳১,১০০ | বাজারে তৈরি মাত্র ৳১,০০০!</div>
+                </div>
+              </div>
+
+              <div class="bg-white p-3 rounded-xl border border-red-200 text-[10px] text-slate-700 space-y-1 mt-2">
+                <div class="font-bold text-red-900 text-[11px] flex items-center gap-1">
+                  <span>⚠️</span> গাণিতিক সত্য:
+                </div>
+                <p>১. ব্যাংক অর্থনীতিতে নোট তৈরি করেছে <strong>৳১,০০০</strong>।</p>
+                <p>২. ১০% সুদে সমাজ থেকে ফেরত দাবি করছে <strong>৳১,১০০</strong>।</p>
+                <p>৩. অতিরিক্ত <strong>৳১০০</strong> বাজারে কোথা থেকে আসবে? <em>তা তো কখনো ছাপাই হয়নি!</em></p>
+                <p class="text-red-700 font-semibold pt-1 border-t border-red-100 text-[9px]">
+                  ফলে সমাজে কাউকে না কাউকে অবশ্যই দেউলিয়া হতে হবে, জমি হারাতে হবে বা নতুন ঋণ নিতে হবে।
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solution Side -->
+          <div class="bg-emerald-50/40 border border-emerald-300 rounded-2xl p-4 flex flex-col justify-between shadow-xs">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">ন্যায্য সমাধান</span>
+                <span class="text-xs font-bold text-emerald-800">সুদমুক্ত জীবন্ত বৃত্ত</span>
+              </div>
+
+              <!-- Compact Visual Circle -->
+              <div class="py-3 flex items-center justify-center">
+                <div class="w-40 h-40 rounded-full border-2 border-dashed border-emerald-500/70 flex items-center justify-center relative p-2 animate-gentle">
+                  <div class="w-18 h-18 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex flex-col items-center justify-center text-center p-1 shadow-xs">
+                    <span class="font-black text-[10px]">আসল সম্পদ</span>
+                    <span class="text-[8px] text-emerald-100 font-bold">০% সুদ</span>
+                  </div>
+
+                  <div class="absolute -top-2.5 bg-white border border-emerald-600 text-slate-800 font-bold text-[9px] px-1.5 py-0.2 rounded-full shadow-xs">
+                    🌾 কৃষক
+                  </div>
+                  <div class="absolute -bottom-2.5 right-1 bg-white border border-emerald-600 text-slate-800 font-bold text-[9px] px-1.5 py-0.2 rounded-full shadow-xs">
+                    🤝 ধার
+                  </div>
+                  <div class="absolute -bottom-2.5 left-1 bg-white border border-emerald-600 text-slate-800 font-bold text-[9px] px-1.5 py-0.2 rounded-full shadow-xs">
+                    👤 ভোক্তা
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white p-3 rounded-xl border border-emerald-200 text-[10px] text-slate-700 space-y-1 mt-2">
+                <div class="font-bold text-emerald-900 text-[11px] flex items-center gap-1">
+                  <span>✅</span> ফেয়ার-সার্কেল কীভাবে মুক্তি আনে:
+                </div>
+                <p>১. <strong>৳১.০০ মূল্য = ৳১.০০ আসল পণ্য</strong> (চাল, তেল, চিকিৎসা সেবা)।</p>
+                <p>২. <strong>শূন্য সুদ:</strong> বিপদে ৳১০,০০০ ধার নিলে হুবহু ৳১০,০০০ ফেরত দেবেন।</p>
+                <p>৩. <strong>সম্পদ বণ্টন:</strong> অলস টাকা ১ বছর পড়ে থাকলে ২.৫% স্থানীয় ফান্ডে দেওয়া বাধ্যতামূলক।</p>
+                <p class="text-emerald-800 font-semibold pt-1 border-t border-emerald-100 text-[9px]">
+                  কারো সম্পদ নিলাম হবে না। সমাজে টাকা অবিরাম ঘুরবে এবং মানুষ মর্যাদার সাথে বাঁচবে।
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div> <!-- End App Root -->
+
+  <!-- MODAL: ESCROW TRANSACTION PREVIEW -->
+  <div id="modal-escrow" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-4 shadow-xl border border-slate-100 animate-gentle">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+          <span>🛡️</span> ৪৮ ঘণ্টার এসক্রো অর্ডার
+        </h3>
+        <button onclick="closeModal('modal-escrow')" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+      </div>
+
+      <div class="py-3 space-y-2 text-[11px]">
+        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+          <span class="text-slate-400 block text-[9px]">পণ্য:</span>
+          <strong id="modal-product-name" class="text-slate-900 text-xs block truncate">পণ্য</strong>
+          <div class="flex justify-between mt-0.5 text-slate-600 text-[10px]">
+            <span id="modal-producer-name" class="truncate">উৎপাদক</span>
+            <span id="modal-product-price" class="font-bold font-mono text-emerald-700 text-xs">৳০</span>
+          </div>
+        </div>
+
+        <div class="space-y-1.5 text-slate-600 text-[10px]">
+          <div class="flex items-start gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[9px] shrink-0">১</span>
+            <p>টাকা সরাসরি বিক্রেতা পাবে না; এসক্রো ভল্টে নিরাপদে থাকবে।</p>
+          </div>
+          <div class="flex items-start gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[9px] shrink-0">২</span>
+            <p>পণ্য পেয়ে আপনি <strong>৪৮ ঘণ্টা সময় পাবেন</strong> মান যাচাইয়ের।</p>
+          </div>
+          <div class="flex items-start gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[9px] shrink-0">৩</span>
+            <p>আপনি সন্তুষ্ট হয়ে কনফার্ম করলেই উৎপাদক টাকা পাবেন।</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-2 border-t border-slate-100">
+        <button onclick="closeModal('modal-escrow')" class="w-1/2 py-2 rounded-lg border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition">
+          বাতিল
+        </button>
+        <button onclick="confirmOrder()" class="w-1/2 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs">
+          নিশ্চিত করুন
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function formatTaka(amount) {
+      return '৳' + Math.round(amount).toLocaleString('en-IN');
+    }
+
+    function setViewMode(mode) {
+      const root = document.getElementById('app-root');
+      const btnWeb = document.getElementById('btn-view-web');
+      const btnMobile = document.getElementById('btn-view-mobile');
+      const notch = document.getElementById('mobile-notch-bar');
+
+      if (mode === 'mobile') {
+        root.className = 'mobile-frame-container';
+        btnMobile.className = 'px-2 py-0.5 rounded font-semibold transition bg-emerald-600 text-white shadow-xs text-[10px]';
+        btnWeb.className = 'px-2 py-0.5 rounded font-medium transition text-slate-300 hover:text-white text-[10px]';
+        notch.classList.remove('hidden');
+      } else {
+        root.className = 'w-full transition-all duration-300 ease-in-out overflow-x-hidden';
+        btnWeb.className = 'px-2 py-0.5 rounded font-semibold transition bg-emerald-600 text-white shadow-xs text-[10px]';
+        btnMobile.className = 'px-2 py-0.5 rounded font-medium transition text-slate-300 hover:text-white text-[10px]';
+        notch.classList.add('hidden');
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('tab-active'));
+      
+      const targetContent = document.getElementById('content-' + tabId);
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetTab) targetTab.classList.add('tab-active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openEscrowModal(name, price, producer) {
+      document.getElementById('modal-product-name').innerText = name;
+      document.getElementById('modal-product-price').innerText = price;
+      document.getElementById('modal-producer-name').innerText = producer;
+      document.getElementById('modal-escrow').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    function confirmOrder() {
+      alert('আলহামদুলিল্লাহ! আপনার অর্ডারটি গ্রহণ করা হয়েছে এবং ৪৮ ঘণ্টার এসক্রো ভল্টে নিরাপদে সংরক্ষিত আছে।');
+      closeModal('modal-escrow');
+    }
+
+    function openPreOrderModal(campaign, cost, yieldUnit) {
+      const confirmAction = confirm(`আপনি কি "${campaign}" প্রকল্পে ${cost} প্রি-অর্ডার করতে চান?\n\nফসল কাটার পর আপনি সরাসরি ${yieldUnit} পাবেন।`);
+      if (confirmAction) {
+        alert('আপনার প্রি-অর্ডার সফল হয়েছে! আপনার শেয়ারের ফসল ডেলিভারি ট্র্যাকার আপনার প্রোফাইলে যুক্ত হয়েছে।');
+      }
+    }
+
+    function openLoanModal() {
+      const amt = prompt('আপনার জরুরি প্রয়োজনের পরিমাণ লিখুন (টাকায়):\n\nমনে রাখবেন: এটি ০% সুদমুক্ত করজে হাসানা ফান্ড।', '১০,০০০');
+      if (amt) {
+        alert(`আপনার ${amt} টাকার সুদমুক্ত জরুরি সহায়তার আবেদন পর্যালোচনা বোর্ডে পাঠানো হয়েছে।`);
+      }
+    }
+
+    function openDepositModal() {
+      const amt = prompt('মহল্লার ০% সুদমুক্ত আপৎকালীন ফান্ডে কত টাকা সাময়িক আমানত রাখতে চান?', '৫,০০০');
+      if (amt) {
+        alert(`ধন্যবাদ! আপনার ${amt} টাকা আমানত হিসেবে সংরক্ষিত হলো।`);
+      }
+    }
+
+    function runUnifiedEngine() {
+      const salary = parseFloat(document.getElementById('u-salary').value);
+      const shieldPct = parseFloat(document.getElementById('u-shield-pct').value);
+      const debt = parseFloat(document.getElementById('u-debt').value);
+      const idle = parseFloat(document.getElementById('u-idle').value);
+      const aid = parseFloat(document.getElementById('u-aid').value);
+
+      document.getElementById('u-salary-val').innerText = formatTaka(salary);
+      document.getElementById('u-shield-pct-val').innerText = shieldPct + '%';
+      document.getElementById('u-debt-val').innerText = formatTaka(debt);
+      document.getElementById('u-idle-val').innerText = formatTaka(idle);
+      document.getElementById('u-aid-val').innerText = formatTaka(aid);
+
+      const shieldedAmt = salary * (shieldPct / 100);
+      const remainingFiat = salary - shieldedAmt;
+
+      document.getElementById('u-shielded-amt').innerText = formatTaka(shieldedAmt);
+      document.getElementById('u-plan-debt').innerText = formatTaka(shieldedAmt * 0.30) + '/মাস';
+      document.getElementById('u-plan-food').innerText = formatTaka(shieldedAmt * 0.40) + '/মাস';
+      document.getElementById('u-plan-invest').innerText = formatTaka(shieldedAmt * 0.20) + '/মাস';
+      document.getElementById('u-plan-aid').innerText = formatTaka(shieldedAmt * 0.10) + '/মাস';
+      document.getElementById('u-plan-fiat').innerText = formatTaka(remainingFiat);
+
+      const threshold = 780000;
+      let duty = 0;
+      if (idle > threshold) {
+        duty = idle * 0.025;
+        document.getElementById('u-duty-stat').innerText = formatTaka(duty);
+      } else {
+        document.getElementById('u-duty-stat').innerText = '৳০ (নিসাবের নিচে)';
+      }
+      document.getElementById('u-given-stat').innerText = formatTaka(aid);
+      const balance = Math.max(0, duty - aid);
+      document.getElementById('u-balance-stat').innerText = formatTaka(balance);
+
+      let score = 100;
+      score -= Math.min(45, (debt / 5000) * 5);
+      if (shieldPct < 30) score -= (30 - shieldPct);
+      if (balance > 0) score -= Math.min(20, (balance / 5000) * 2);
+      if (aid > duty && duty > 0) score += 5;
+
+      score = Math.max(10, Math.min(100, Math.round(score)));
+      document.getElementById('u-score-num').innerText = score;
+
+      const badge = document.getElementById('u-score-badge');
+      const title = document.getElementById('u-score-title');
+      const desc = document.getElementById('u-score-desc');
+
+      if (score >= 85) {
+        badge.className = 'w-16 h-16 rounded-full border-4 border-emerald-500 bg-emerald-50 flex flex-col items-center justify-center shadow-xs transition-all duration-300';
+        document.getElementById('u-score-num').className = 'text-xl font-black text-emerald-700 font-mono leading-none';
+        title.innerText = 'আদর্শ নাগরিক (Uplifter)';
+        desc.innerText = 'সুদমুক্ত এবং উদ্বৃত্ত অর্থ সমাজ কল্যাণে ঘুরছে।';
+      } else if (score >= 60) {
+        badge.className = 'w-16 h-16 rounded-full border-4 border-amber-400 bg-amber-50 flex flex-col items-center justify-center shadow-xs transition-all duration-300';
+        document.getElementById('u-score-num').className = 'text-xl font-black text-amber-700 font-mono leading-none';
+        title.innerText = 'পরিবর্তনশীল সমর্থক';
+        desc.innerText = 'সুদের ঋণ এখনও আপনার মেহনতের টাকা শুষে নিচ্ছে।';
+      } else {
+        badge.className = 'w-16 h-16 rounded-full border-4 border-red-400 bg-red-50 flex flex-col items-center justify-center shadow-xs transition-all duration-300';
+        document.getElementById('u-score-num').className = 'text-xl font-black text-red-700 font-mono leading-none';
+        title.innerText = 'সুদের ফাঁদে আটকে';
+        desc.innerText = 'উচ্চ সুদের কারণে উপার্জন ব্যাংক পিরামিডে চলে যাচ্ছে।';
+      }
+    }
+
+    runUnifiedEngine();
+  </script>
+</body>
+</html>

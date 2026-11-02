@@ -1,0 +1,64 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Build Flutter Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Java Environment
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Setup Flutter SDK
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.x'
+          channel: 'stable'
+          cache: true
+
+      # 4. Install Dependencies
+      - name: Install Flutter Dependencies
+        run: |
+          cd mobile_app
+          flutter pub get
+
+      # 5. Build Release APK (Zero Split)
+      - name: Build Release APK
+        run: |
+          cd mobile_app
+          flutter build apk --release --split-per-abi=false
+
+      # 6. Upload APK as GitHub Build Artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: faircircle-release-apk
+          path: mobile_app/build/app/outputs/flutter-apk/app-release.apk
+
+      # 7. Publish to GitHub Releases (On version tags like v1.0.0)
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mobile_app/build/app/outputs/flutter-apk/app-release.apk
+          name: FairCircle Android Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

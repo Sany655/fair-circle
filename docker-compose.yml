@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 1. MySQL 8.0 Database Service
+  mysql_db:
+    image: mysql:8.0
+    container_name: faircircle_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: faircircle_secure_root_password_2026
+      MYSQL_DATABASE: faircircle_db
+      MYSQL_USER: faircircle_user
+      MYSQL_PASSWORD: faircircle_secure_user_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - faircircle_network
+
+  # 2. Next.js Backend & Web Service
+  backend_web:
+    build:
+      context: ./backend-web
+      dockerfile: Dockerfile
+    container_name: faircircle_web_server
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+      DB_USER: faircircle_user
+      DB_PASSWORD: faircircle_secure_user_pass
+      DB_NAME: faircircle_db
+      JWT_SECRET: faircircle_production_jwt_secret_change_me
+    depends_on:
+      - mysql_db
+    networks:
+      - faircircle_network
+
+networks:
+  faircircle_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
