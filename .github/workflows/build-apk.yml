@@ -32,10 +32,11 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # 4. Install Dependencies
-      - name: Install Flutter Dependencies
+      # 4. Generate Android Scaffolding & Install Dependencies
+      - name: Prepare Android Project & Dependencies
         run: |
           cd mobile_app
+          flutter create . --platforms=android --org=com.faircircle --project-name=fair_circle
           flutter pub get
 
       # 5. Build Release APK (Zero Split)
